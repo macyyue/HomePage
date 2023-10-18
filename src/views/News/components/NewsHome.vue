@@ -1,16 +1,33 @@
-﻿<script>
+<script>
 export default {
   data() {
     return {
       newsList: [
-        // 你的新闻列表数据
+        // 新闻列表数据
         {
           id: 1,
-          title: '新闻标题 1',
-          // 其他新闻信息
+          title: '【U’sFactory祝10周年】革新的Web情報共有システム「Info360Ⓡ」に新機能追加【 8/30～9/1 大阪DX展に出展】',
+          date:'2023年8月18日',
+          category:'イベント'
         },
-        // 添加更多新闻
+        {
+          id: 2,
+          title: '必見！！「超初めてのArchicad操作法」を無料公開',
+          date:'2023年6月11日',
+          category:'お知らせ'
+        },
+        {
+          id: 3,
+          title: 'Info360（web PointCloud Viewer）がリリースされました（千葉幕張メッセ CSPI-EXPOに展示します）',
+          date:'2023年5月22日',
+          category:'イベント'
+        },
       ],
+      selectedNewsId: null, 
+  created() {
+    // 在组件创建时从路由参数中检索selectedNewsId
+    this.selectedNewsId = this.$route.params.id;
+  },
     };
   },
 };
@@ -59,55 +76,27 @@ export default {
             </select>
           </div>
         </div>
+        
         <div class="news" data-news-pc="row">
-          <article class="news__article">
-            <a href="/news/2023/230804_9604.html" class="news__type">
+          <article v-for="newsItem in newsList" :key="newsItem.id"  class="news__article">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
-                  <time class="news__date" datetime="2023-08-04">2023年8月18日</time>
-                  <div class="news__category"><i class="util-badge--events">イベント</i></div>
+                  <time class="news__date" :datetime="newsItem.date">{{ newsItem.date }}</time>
+                  <div class="news__category"><i class="util-badge--events">{{ newsItem.category }}</i></div>
                 </div>
                
                 <div class="news__caption">
-                  <h3 class="news__title" > 
-                    <router-link :to="{ name: 'News20230818', params: { id: 20230818 } }" class="override-link-style">
-                      【U’sFactory祝10周年】革新的Web情報共有システム「Info360Ⓡ」に新機能追加【 8/30～9/1 大阪DX展に出展】
-                    </router-link>
-                  </h3>
-                </div>
-              
-              </div>
-              
-            </a>
-          </article>
-          <article class="news__article">
-            <a href="/news/2023/230802_9610.html" class="news__type">
-              <div class="news__body">
-                <div class="news__property">
-                  <time class="news__date" datetime="2023-08-02">2023年6月11日</time>
-                  <div class="news__category"><i class="util-badge--news">お知らせ</i></div>
-                </div>
-                <div class="news__caption">
-                  <h3 class="news__title">必見！！「超初めてのArchicad操作法」を無料公開</h3>
+                  <router-link :to="{ name: 'News20230818', params: { id: newsItem.id } }" class="override-link-style">
+                  <h3 class="news__title">{{ newsItem.title }}</h3>
+                </router-link>
+
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230726_9607.html" class="news__type">
-              <div class="news__body">
-                <div class="news__property">
-                  <time class="news__date" datetime="2023-07-26">2023年5月22日</time>
-                  <div class="news__category"><i class="util-badge--cat1612">イベント</i></div>
-                </div>
-                <div class="news__caption">
-                  <h3 class="news__title">Info360（web PointCloud Viewer）がリリースされました（千葉幕張メッセ CSPI-EXPOに展示します）</h3>
-                </div>
-              </div>
-            </a>
-          </article>
-          <article class="news__article">
-            <a href="https://kurashi-machi.taisei-techsolu.jp/news/2023/0720_1135.html" target="_blank" rel="noopener" class="news__type--blank">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-07-20">2023年5月12日</time>
@@ -117,10 +106,10 @@ export default {
                   <h3 class="news__title">2023年5月16日 BI For AC V26をリリース「BIM積算機能が大幅にバージョンアップ」</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230719_9586.html" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-07-19">2023年2月14日</time>
@@ -130,10 +119,10 @@ export default {
                   <h3 class="news__title">「BI For Archicad」が国交省の建築BIM加速化事業で補助対象となるソフトウェアに認定されました</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230712_9590.html" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-07-12">2022年12月28日</time>
@@ -143,10 +132,10 @@ export default {
                   <h3 class="news__title">内装業者のための積算・発注業務革命とは</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230711_9591.html" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-07-11">2022年9月16日</time>
@@ -156,10 +145,10 @@ export default {
                   <h3 class="news__title">躍進企業応援マガジン COMPANYTANK(カンパニータンク) 2022年9月号にインタビューが掲載されました。</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230620_9574.html" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-06-20">2022年8月23日</time>
@@ -169,10 +158,10 @@ export default {
                   <h3 class="news__title">【3次元計測モデリングサービス『Ｉｎｆｏ３６０®』が好調】</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/tech_center/open_innovation/" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-06-16">2022年7月25日</time>
@@ -182,10 +171,10 @@ export default {
                   <h3 class="news__title">BI Structureが各社に必要とされる理由とは</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
           <article class="news__article">
-            <a href="/news/2023/230613_9572.html" class="news__type">
+            <div class="news__type">
               <div class="news__body">
                 <div class="news__property">
                   <time class="news__date" datetime="2023-06-13">2022年5月21日</time>
@@ -195,7 +184,7 @@ export default {
                   <h3 class="news__title">産経新聞に「BIMデータの自動変換による見える化で合意形成を早期に実現へ」の記事が掲載されました</h3>
                 </div>
               </div>
-            </a>
+            </div>
           </article>
         </div>
       </div>
